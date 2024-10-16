@@ -130,11 +130,15 @@
 						return;						
 					}
 
-					if (("yes" == stop_on_playlist_end) && (!$crt_elt.next().length)) {
-						$play_btn.removeClass("display_none");
-						$pause_btn.addClass("display_none");
-						
-						return;
+					/*on repeat current song and repeat active, bypass stop when playlist ends*/
+					if (!(("current_song" == repeatmode) && repeat_btn_on)) {
+						/*stop when playlist ends*/
+						if (("yes" == stop_on_playlist_end) && (!$crt_elt.next().length)) {
+							$play_btn.removeClass("display_none");
+							$pause_btn.addClass("display_none");
+							
+							return;
+						}						
 					}
 
 					$next_elt.find('audio').get(0).play();

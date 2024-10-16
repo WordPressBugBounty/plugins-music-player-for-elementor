@@ -255,7 +255,7 @@ final class MPFE_Plugin_Menu_Pages {
 			<div class="mpfe_wrap_desc text_center">
 				<a href="<?php 
         echo esc_url( admin_url( 'admin.php?page=mpfe-dashboard-pricing' ) );
-        ?>" class="mpfe_go_pro vibrant_color">GO PRO</a> and create a customized audio player for your website,  unlocking the full potential of Music Player for Elementor.
+        ?>" class="mpfe_go_pro vibrant_color">GO PRO</a> and create a customized audio player for your website, unlocking the full potential of Music Player for Elementor.
 			</div>
 			<div class="mpfe_wrap_desc pro_features">
 				<div class="single_feat">
