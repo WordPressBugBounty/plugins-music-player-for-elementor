@@ -53,11 +53,9 @@ final class Load_Music_Player_For_Elementor {
 		wp_enqueue_style('mpfe_admin_style',  MPFE_DIR_URL . '/css/mpfe-admin-style.css', array(), MPFE_VERSION);
 		wp_enqueue_script('mpfe_admin_js',  MPFE_DIR_URL . '/js/mpfe-admin.js', array('jquery'), MPFE_VERSION);
 
-		wp_localize_script(
-			'mpfe_admin_js', 
-			'sdata', 
-			array(
-				'ajaxurl'	=>	admin_url('admin-ajax.php')
+		wp_localize_script('mpfe_admin_js', 'sdata', array(
+				'ajaxurl'	=>	admin_url('admin-ajax.php'),
+				'import_nonce' => wp_create_nonce( 'mpfe_import_nonce' ),
 			)
 		);
 	}
@@ -186,7 +184,17 @@ final class Load_Music_Player_For_Elementor {
 	}
 
 	public function import_mpfe_template() {
-		$ret = array(); 
+		check_ajax_referer('mpfe_import_nonce', 'import_nonce' );
+
+		$ret = array();
+		if (!current_user_can( 'edit_posts' )) {
+	    	$ret['success'] = false;
+	    	$ret['message'] = esc_html__('You are not allowed to import templates.', 'music-player-for-elementor');
+			
+			echo json_encode($ret);
+			exit;	    	
+		}
+		
 		if (!did_action('elementor/loaded')) {
 	    	$ret['success'] = false;
 	    	$ret['message'] = esc_html__('Elementor plugin must be installed and active to run the template importer.', 'music-player-for-elementor');

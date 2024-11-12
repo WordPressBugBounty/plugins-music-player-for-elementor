@@ -15,7 +15,8 @@ jQuery(document).ready(function($) {
 
 		var data = {
 			action: 'mpfe_import_template',
-			filename: json_file
+			filename: json_file,
+			import_nonce: sdata.import_nonce
 		};
 
 		$.post(

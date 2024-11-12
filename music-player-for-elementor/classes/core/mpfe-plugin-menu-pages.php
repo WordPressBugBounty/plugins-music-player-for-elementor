@@ -90,7 +90,7 @@ final class MPFE_Plugin_Menu_Pages {
 			<div class="mpfe_import_messages">
 				<div class="mpfe_import_notice mpfe_import_success">
 					<?php 
-        echo esc_html__( 'Template imported successfully! You can find it under My Templates/Saved Templates and you can insert it anywhere with Elementor editor.', 'music-player-for-elementor' );
+        echo esc_html__( 'All set! Template imported successfully! You can find it under My Templates/Saved Templates and you can drop it anywhere you like with the Elementor editor.', 'music-player-for-elementor' );
         ?>
 					<a href="https://elementor.com/help/adding-templates/" target="_blank"><?php 
         echo esc_html__( "See how to insert a template in Elementor." );
@@ -241,6 +241,8 @@ final class MPFE_Plugin_Menu_Pages {
 					Report a problem			</a>
 				<a href="https://wordpress.org/support/plugin/music-player-for-elementor/" class="button helper-quick-link  button-primary" target="_blank">
 					Suggest a feature			</a>
+				<a href="https://smartwpress.ticksy.com/submit/#100019225" class="button helper-quick-link  button-primary" target="_blank">
+					Support Ticket (PRO)			</a>
 			</div>
 		</div>
 
@@ -263,6 +265,12 @@ final class MPFE_Plugin_Menu_Pages {
         echo esc_attr( MPFE_DIR_URL . "/img/checked.png" );
         ?>"></span>
 					<strong>Unlimited colors and fonts</strong> for layout elements
+				</div>
+				<div class="single_feat">
+					<span><img class="checked" src="<?php 
+        echo esc_attr( MPFE_DIR_URL . "/img/checked.png" );
+        ?>"></span>
+					<strong>Import</strong> professionally designed <strong>player templates</strong>
 				</div>
 				<div class="single_feat">
 					<span><img class="checked" src="<?php 
@@ -304,7 +312,7 @@ final class MPFE_Plugin_Menu_Pages {
 			<div class="text_center">
 				<a href="<?php 
         echo esc_url( admin_url( 'admin.php?page=mpfe-dashboard-pricing' ) );
-        ?>" class="mpfe_adm_btn">PLANS & FEATURES (starting at $19.99/year)</a>
+        ?>" class="mpfe_adm_btn">PLANS & FEATURES</a>
 			</div>
 			
 			<?php 
