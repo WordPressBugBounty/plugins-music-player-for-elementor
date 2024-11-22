@@ -59,10 +59,11 @@ class MPFE_Audio_Chooser_Control extends \Elementor\Base_Data_Control {
 		return [
 			'label_block' => true,
 			'dynamic' => [
-				'categories' => [
-					TagsModule::MEDIA_CATEGORY,
-				],				
 				'active' => true,
+				'categories' => [ 
+					TagsModule::URL_CATEGORY,
+				],
+
 			],
 		];
 	}
@@ -81,7 +82,7 @@ class MPFE_Audio_Chooser_Control extends \Elementor\Base_Data_Control {
 			<label for="<?php echo esc_attr( $control_uid ); ?>" class="elementor-control-title">{{{ data.label }}}</label>
 			<a href="#" class="smc-ec-select-file elementor-button" style="padding: 10px 15px; margin-top: 10px; display: block; width: 100%; text-align: center; border: 1px dashed #d5dadf;" id="select-file-<?php echo esc_attr( $control_uid ); ?>" ><?php echo esc_html__( "Choose Audio File", 'music-player-for-elementor' ); ?></a> <br />
 			<div class="elementor-control-input-wrapper elementor-control-dynamic-switcher-wrapper">
-				<input type="text" class="smc-selected-audio-url elementor-dynamic-tag-field elementor-dynamic-tag-enabled" id="<?php echo esc_attr( $control_uid ); ?>" data-setting="{{ data.name }}" placeholder="{{ data.placeholder }}">
+				<input class="smc-selected-audio-url elementor-control-tag-area elementor-input elementor-control-unit-5" id="<?php echo esc_attr( $control_uid ); ?>" data-setting="{{ data.name }}" placeholder="{{ data.placeholder }}">
 			</div>
 		</div>
 		<# if ( data.description ) { #>

@@ -3,9 +3,9 @@ Contributors: smartwpress, freemius
 Tags: music player, audio player, mp3 player, podcast player, elementor widget
 Donate link: https://smartwpress.com/
 Requires at least: 5.1
-Tested up to: 6.6.2
+Tested up to: 6.7.1
 Requires PHP: 7.0
-Stable tag: 2.4.2
+Stable tag: 2.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,7 @@ Music Player for Elementor is a professionally designed Elementor audio player w
 * Custom color for the hover state
 * Custom background color for controls bar
 * Custom left/right distance for the controls bar
+* Dynamic tag compatibility with Elementor and Advanced Custom Fields (ACF) / Secure Custom Fields (SCF) - automatically load audio URL from custom meta
 * Music player templates import
 
 ### PRO VERSION AVAILABLE
@@ -117,6 +118,9 @@ Yes, both Elementor audio player widgets work with any WordPress theme, whether 
 6. Mobile View - Elementor Podcast Player
 
 == Changelog ==
+
+= 2.4.3 =
+- improve audio player compatibility with Advanced Custom Fields (ACF) / Secure Custom Fields (SCF) and Elementor dynamic tags
 
 = 2.4.2 =
 - software update

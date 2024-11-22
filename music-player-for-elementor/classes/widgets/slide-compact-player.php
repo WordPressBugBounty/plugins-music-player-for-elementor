@@ -135,6 +135,9 @@ class Widget_Slide_Compact_Player extends Widget_Base {
             'default'   => [
                 'url' => \Elementor\Utils::get_placeholder_image_src(),
             ],
+            'dynamic'   => [
+                'active' => true,
+            ],
             'selectors' => [
                 '{{WRAPPER}} .swp-compact-cover-container' => 'background-image: url("{{URL}}"); background-size: cover;',
             ],
@@ -214,6 +217,9 @@ class Widget_Slide_Compact_Player extends Widget_Base {
                 'url'         => '',
                 'is_external' => false,
                 'nofollow'    => false,
+            ],
+            'dynamic'       => [
+                'active' => true,
             ],
             'description'   => __( 'Leave it emtpy to disable the icon link.', 'music-player-for-elementor' ),
         ] );
@@ -300,8 +306,7 @@ class Widget_Slide_Compact_Player extends Widget_Base {
             'default'     => __( 'Pear Tree Restaurant', 'music-player-for-elementor' ),
             'label_block' => 'true',
             'dynamic'     => [
-                'active'     => true,
-                'categories' => [TagsModule::MEDIA_CATEGORY],
+                'active' => true,
             ],
         ] );
         $repeater->add_control( 'separator_panel_2', [
@@ -1625,9 +1630,10 @@ class Widget_Slide_Compact_Player extends Widget_Base {
     }
 
     private function single_track_html( $song, $album_to_song_name = false ) {
+        $audio_file_url = $song['audio_file'];
         ?>
 		<div class="swp_music_player_entry compact-player-entry clearfix" data-mediafile="<?php 
-        echo esc_attr( $song['audio_file'] );
+        echo esc_url( $audio_file_url );
         ?>">
 			<span class="swp_song_details player_entry_left">
 				<span class="play_icon">
