@@ -269,6 +269,14 @@ class Widget_Slide_Compact_Player extends Widget_Base {
             'return_value' => 'yes',
             'default'      => 'no',
         ] );
+        $this->add_control( 'play_from_start', [
+            'label'        => __( 'Always Play From The Song Start', 'music-player-for-elementor' ),
+            'type'         => \Elementor\Controls_Manager::SWITCHER,
+            'label_on'     => __( 'Yes', 'music-player-for-elementor' ),
+            'label_off'    => __( 'No', 'music-player-for-elementor' ),
+            'return_value' => 'yes',
+            'default'      => 'no',
+        ] );
         $this->add_control( 'show_playlist', [
             'label'   => __( 'Show Playlist', 'music-player-for-elementor' ),
             'type'    => \Elementor\Controls_Manager::SELECT,
@@ -1435,8 +1443,10 @@ class Widget_Slide_Compact_Player extends Widget_Base {
         $show_next_prev = "yes";
         $show_list_icon = "yes";
         $show_volume_control = "no";
+        $hide_volume_in_mobile = 'no';
         $stop_playlist_end = ( "yes" == $settings['stop_playlist_end'] ? "yes" : "no" );
         $stop_song_end = ( "yes" == $settings['stop_song_end'] ? "yes" : "no" );
+        $play_from_start = ( "yes" == $settings['play_from_start'] ? "yes" : "no" );
         $playlist_popup = ( "popup" == $settings['show_playlist'] ? true : false );
         $player_id = uniqid( "mpfe_" );
         $ltr_rtl_dir_class = ( "rtl" == $settings['progress_direction'] ? "rtl_direction" : "ltr_direction" );
@@ -1452,6 +1462,8 @@ class Widget_Slide_Compact_Player extends Widget_Base {
         echo esc_attr( $stop_song_end );
         ?>" data-repeatmode="<?php 
         echo esc_attr( $repeat_mode );
+        ?>" data-pfs="<?php 
+        echo esc_attr( $play_from_start );
         ?>">
 			<div class="swp-compact-player">
 				<div class="swp-compact-cover">
@@ -1527,11 +1539,14 @@ class Widget_Slide_Compact_Player extends Widget_Base {
 							<div class="compact-controls">
 								<?php 
         if ( "yes" == $show_volume_control ) {
+            $vol_css = ( "yes" == $hide_volume_in_mobile ? "mpfe-compact-volume hide_vol_in_mobile" : "mpfe-compact-volume" );
             ?>
-								<span class="mpfe-compact-volume">
+								<span class="<?php 
+            echo esc_attr( $vol_css );
+            ?>">
 									<i class="fa fa-volume-up mpfe-toggle-vol"></i>
 									<div class="mpfe-range-vol">
-										<input class="mpfe-input-range" orient="vertical" type="range" step="0.1" value="1" min="0" max="1">
+										<input class="mpfe-input-range" type="range" step="0.1" value="1" min="0" max="1">
 									</div>
 								</span>
 								<?php 

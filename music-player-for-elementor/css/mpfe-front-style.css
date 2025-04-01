@@ -1039,4 +1039,7 @@ ul.compact-ps-opts li {
 	.swp_player_content.controls_on_playlist_top.no_top_info_bar {
 		height: calc(100% - 140px);
 	}
+	.mpfe-compact-volume.hide_vol_in_mobile {
+		display: none;
+	}
 }

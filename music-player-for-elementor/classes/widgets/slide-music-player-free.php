@@ -43,7 +43,7 @@ if ( !class_exists( "Widget_Slide_Music_Player_Free" ) ) {
          * @return string Widget title.
          */
         public function get_title() {
-            return __( 'The Music Player - Original', 'music-player-for-elementor' );
+            return __( 'Album Music Player', 'music-player-for-elementor' );
         }
 
         /**
@@ -114,7 +114,7 @@ if ( !class_exists( "Widget_Slide_Music_Player_Free" ) ) {
          */
         protected function register_controls() {
             $this->start_controls_section( 'section_backgrounds', [
-                'label' => __( 'Slide Music Player - Backgrounds', 'music-player-for-elementor' ),
+                'label' => __( 'Backgrounds', 'music-player-for-elementor' ),
                 'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
             ] );
             $this->add_responsive_control( 'show_player_left_get_pro', [
@@ -219,7 +219,7 @@ if ( !class_exists( "Widget_Slide_Music_Player_Free" ) ) {
             ] );
             $this->end_controls_section();
             $this->start_controls_section( 'section_album_details', [
-                'label' => __( 'Slide Music Player - Album Details', 'music-player-for-elementor' ),
+                'label' => __( 'Album Details', 'music-player-for-elementor' ),
                 'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
             ] );
             $this->add_control( 'album_title', [
@@ -322,7 +322,7 @@ if ( !class_exists( "Widget_Slide_Music_Player_Free" ) ) {
             ] );
             $this->end_controls_section();
             $this->start_controls_section( 'section_playlist', [
-                'label' => __( 'Slide Music Player - Playlist', 'music-player-for-elementor' ),
+                'label' => __( 'Playlist', 'music-player-for-elementor' ),
                 'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
             ] );
             $this->add_control( 'autoplay_get_pro', [
@@ -345,6 +345,14 @@ if ( !class_exists( "Widget_Slide_Music_Player_Free" ) ) {
             ] );
             $this->add_control( 'stop_song_end', [
                 'label'        => __( 'Stop When Current Song Ends', 'music-player-for-elementor' ),
+                'type'         => \Elementor\Controls_Manager::SWITCHER,
+                'label_on'     => __( 'Yes', 'music-player-for-elementor' ),
+                'label_off'    => __( 'No', 'music-player-for-elementor' ),
+                'return_value' => 'yes',
+                'default'      => 'no',
+            ] );
+            $this->add_control( 'play_from_start', [
+                'label'        => __( 'Always Play From The Song Start', 'music-player-for-elementor' ),
                 'type'         => \Elementor\Controls_Manager::SWITCHER,
                 'label_on'     => __( 'Yes', 'music-player-for-elementor' ),
                 'label_off'    => __( 'No', 'music-player-for-elementor' ),
@@ -1070,6 +1078,7 @@ if ( !class_exists( "Widget_Slide_Music_Player_Free" ) ) {
             $album_cover = ( isset( $settings['left_bg_img'] ) ? $settings['left_bg_img']['url'] : "" );
             $stop_playlist_end = ( "yes" == $settings['stop_playlist_end'] ? "yes" : "no" );
             $stop_song_end = ( "yes" == $settings['stop_song_end'] ? "yes" : "no" );
+            $play_from_start = ( "yes" == $settings['play_from_start'] ? "yes" : "no" );
             $buy_target = ( $settings['album_buy_url']['is_external'] ? '_blank' : '_self' );
             $hide_top_info = ( "yes" == $settings['hide_top_info'] ? true : false );
             $show_info_on_top = ( "playlist_top" == $settings['controls_bar_pos'] ? false : true );
@@ -1098,6 +1107,8 @@ if ( !class_exists( "Widget_Slide_Music_Player_Free" ) ) {
             echo esc_attr( $repeat_mode );
             ?>" data-playerimg="<?php 
             echo esc_attr( $album_cover );
+            ?>" data-pfs="<?php 
+            echo esc_attr( $play_from_start );
             ?>">
 			<div class="music_player_left <?php 
             echo esc_attr( $cover_ar );

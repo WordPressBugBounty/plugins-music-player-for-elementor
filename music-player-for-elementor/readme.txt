@@ -3,9 +3,9 @@ Contributors: smartwpress, freemius
 Tags: music player, audio player, mp3 player, podcast player, elementor widget
 Donate link: https://smartwpress.com/
 Requires at least: 5.1
-Tested up to: 6.7.1
+Tested up to: 6.7.2
 Requires PHP: 7.0
-Stable tag: 2.4.4
+Stable tag: 2.4.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -118,6 +118,11 @@ Yes, both Elementor audio player widgets work with any WordPress theme, whether 
 6. Mobile View - Elementor Podcast Player
 
 == Changelog ==
+
+= 2.4.5 =
+- fix regarding the volume slider for the compact music player in Firefox
+- add new compact player option to hide the volume control for mobile devices
+- add new option for both audio players to always play songs from the start
 
 = 2.4.4 =
 - software update

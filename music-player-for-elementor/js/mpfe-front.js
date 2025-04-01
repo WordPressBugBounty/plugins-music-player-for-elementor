@@ -40,6 +40,7 @@
 			var playmode = $player.data('playmode');
 			var stop_on_playlist_end = $player.data('stopplaylistend');
 			var stop_on_song_end = $player.data('stopsongend');
+			var play_from_start = $player.data('pfs');
 			var repeatmode = $player.data("repeatmode");
 			var shuffle_btn_on = false, repeat_btn_on = false;
 			var $ps_elt = $player.find('.compact-playback-speed');
@@ -64,6 +65,19 @@
 					$(this).get(0).playbackRate = new_psval;
 				});
 			})
+
+			function resetAudioTime(audioElement) {
+			    if (!audioElement || !audioElement.src) {
+			        return;
+			    }
+
+			    if (!audioElement.paused) {
+			        audioElement.pause();
+			    }
+			    if (play_from_start === "yes") {
+			        audioElement.currentTime = 0;
+			    }
+			}
 
 			function handleCoverImg($crt_elt) {
 				if(!$player.data('playerimg')) {
@@ -141,6 +155,7 @@
 						}						
 					}
 
+					resetAudioTime($next_elt.find('audio').get(0));
 					$next_elt.find('audio').get(0).play();
 					$next_elt.addClass('mpfe_already_played');
 					stopOtherPlayers();
@@ -234,7 +249,7 @@
 					$prev_elt = $last_song;
 				}
 				$playing_song_name.text($prev_elt.find('.player_song_name').text());
-				$prev_elt.find('audio').get(0).currentTime = 0;
+				resetAudioTime($prev_elt.find('audio').get(0));
 				$prev_elt.find('audio').get(0).play();
 				$prev_elt.addClass('mpfe_already_played');
 				stopOtherPlayers();
@@ -254,6 +269,7 @@
 				$crt_elt.removeClass('now_playing');
 
 				$next_elt.addClass('now_playing');
+				resetAudioTime($next_elt.find('audio').get(0));
 				$next_elt.find('audio').get(0).play();
 				$next_elt.addClass('mpfe_already_played');
 				stopOtherPlayers();
@@ -374,6 +390,7 @@
 		$toggle_vol.on('click', function() {
 			$range_vol.toggle();
 		})
+		console.log("After Volume click slider val: " + $slider.val());
 
 		$slider.on("input", function() {
 			$player.find('.swp_music_player_entry').each(function(){
