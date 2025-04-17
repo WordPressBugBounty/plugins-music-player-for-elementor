@@ -3,9 +3,9 @@ Contributors: smartwpress, freemius
 Tags: music player, audio player, mp3 player, podcast player, elementor widget
 Donate link: https://smartwpress.com/
 Requires at least: 5.1
-Tested up to: 6.7.2
+Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 2.4.5
+Stable tag: 2.4.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -106,7 +106,7 @@ Yes, both Elementor audio player widgets work with any WordPress theme, whether 
 
 == Installation ==
 1. Install Music Player for Elementor like any other WordPress plugin. Please take a short look on the [plugin installation tutorial](https://wordpress.org/support/article/managing-plugins/).
-2. After installing and activating the plugin, you can simply use the music player widget in Elementor. There, you can add your own mp3/audio files, customize the player images, colors and layout. All you have to do is to add the audio player anywhere on your page.
+2. After installing and activating the plugin, you can simply use the music player widget in Elementor editor. There, you can add your own mp3/audio files, customize the player images, colors and layout. All you have to do is to add the audio player anywhere on your page.
 
 == Screenshots ==
 
@@ -118,6 +118,9 @@ Yes, both Elementor audio player widgets work with any WordPress theme, whether 
 6. Mobile View - Elementor Podcast Player
 
 == Changelog ==
+
+= 2.4.6 =
+- add hours time format support for audio tracks longer than 60 mins
 
 = 2.4.5 =
 - fix regarding the volume slider for the compact music player in Firefox

@@ -1,13 +1,15 @@
 (function($) {
-	var toMinutes = function(seconds) {
-		seconds = Math.floor(seconds);
-		min_part = Math.floor(seconds/60);
-		sec_part = seconds % 60;
-		if (sec_part < 10) {
-			sec_part = '0' + sec_part;
+	var formatTimeHM = function (seconds) {
+		  const hrs = Math.floor(seconds / 3600);
+		  const mins = Math.floor((seconds % 3600) / 60);
+		  const secs = Math.floor(seconds % 60);
+
+		  if (hrs > 0) {
+		    return `${hrs}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+		  } else {
+		    return `${mins}:${secs.toString().padStart(2, '0')}`;
+		  }
 		}
-		return min_part + ":" + sec_part;
-	}
 
 	var handleSlidePlayer = function($scope, player_selector) {
         $scope.find(player_selector).each(function() {
@@ -79,6 +81,8 @@
 			    }
 			}
 
+
+
 			function handleCoverImg($crt_elt) {
 				if(!$player.data('playerimg')) {
 					return;
@@ -122,9 +126,9 @@
 
 
 				audio.onloadedmetadata = function() {
-					$player_entry.find('.entry_duration').text(toMinutes(audio.duration));
+					$player_entry.find('.entry_duration').text(formatTimeHM(audio.duration));
 					if ($first_song.is($player_entry)) {
-						$song_duration.text(toMinutes(audio.duration));
+						$song_duration.text(formatTimeHM(audio.duration));
 					}
 				};
 
@@ -133,7 +137,7 @@
 					var $next_elt = get_next_player_elt($crt_elt);
 
 					$playing_song_name.text($next_elt.find('.player_song_name').text());
-					$song_duration.text(toMinutes($next_elt.find('audio').get(0).duration));
+					$song_duration.text(formatTimeHM($next_elt.find('audio').get(0).duration));
 					$crt_elt.removeClass('now_playing');
 					$next_elt.addClass('now_playing');
 
@@ -169,7 +173,7 @@
 				    var currentTime = audio.currentTime;
 				    var duration = audio.duration;
 				    $time_slider.stop(true,true).css('width', (currentTime +.25)/duration*100+'%');
-				    $song_current_progress.text(toMinutes(currentTime));
+				    $song_current_progress.text(formatTimeHM(currentTime));
 				});
 			});
 
@@ -234,7 +238,7 @@
 				stopOtherPlayers();
 				handleCoverImg($next_elt);
 				handleAlbumInfoForCompact($next_elt);
-				$song_duration.text(toMinutes($next_elt.find('audio').get(0).duration));
+				$song_duration.text(formatTimeHM($next_elt.find('audio').get(0).duration));
 				$crt_elt.removeClass('now_playing');
 				$next_elt.addClass('now_playing');
 				$play_btn.addClass("display_none");
@@ -255,7 +259,7 @@
 				stopOtherPlayers();
 				handleCoverImg($prev_elt);
 				handleAlbumInfoForCompact($prev_elt);
-				$song_duration.text(toMinutes($prev_elt.find('audio').get(0).duration));
+				$song_duration.text(formatTimeHM($prev_elt.find('audio').get(0).duration));
 				$crt_elt.removeClass('now_playing');
 				$prev_elt.addClass('now_playing');
 				$play_btn.addClass("display_none");
@@ -275,7 +279,7 @@
 				stopOtherPlayers();
 				handleCoverImg($next_elt);
 				handleAlbumInfoForCompact($next_elt);
-				$song_duration.text(toMinutes($(this).parent().find('audio').get(0).duration));
+				$song_duration.text(formatTimeHM($(this).parent().find('audio').get(0).duration));
 				$playing_song_name.text($(this).find('.player_song_name').text());
 
 				$play_btn.addClass("display_none");
