@@ -28,7 +28,7 @@
 			var $player = $(this);
 			var player_id = $player.attr("id");
 			var $play_btn = $player.find('.fa-play.player_play');
-			var $pause_btn = $player.find('.fa-pause');
+			var $pause_btn = $player.find('.fa-pause.player_pause');
 			var $fwd_btn = $player.find('.fa-step-forward');
 			var $bkw_btn = $player.find('.fa-step-backward');		
 			var $first_song = $player.find('.swp_music_player_entry').first();
@@ -80,8 +80,6 @@
 			        audioElement.currentTime = 0;
 			    }
 			}
-
-
 
 			function handleCoverImg($crt_elt) {
 				if(!$player.data('playerimg')) {
@@ -217,12 +215,14 @@
 				handleAlbumInfoForCompact($crt_elt);
 				$play_btn.addClass("display_none");
 				$pause_btn.removeClass("display_none");
+				toggleCompactPlaylistUnderPlayPause($player, 'play');
 			});
 			$pause_btn.off('click').on('click', function() {
 				var $crt_elt = $player.find('.swp_music_player_entry.now_playing');
 				$crt_elt.find('audio').get(0).pause();
 				$play_btn.removeClass("display_none");
 				$pause_btn.addClass("display_none");
+				toggleCompactPlaylistUnderPlayPause($player, 'pause');
 			});
 
 			$fwd_btn.off('click').on('click', function() {
@@ -243,6 +243,7 @@
 				$next_elt.addClass('now_playing');
 				$play_btn.addClass("display_none");
 				$pause_btn.removeClass("display_none");
+				toggleCompactPlaylistCrtNext($player, $crt_elt, $next_elt);
 			});
 
 			$bkw_btn.off('click').on('click', function() {
@@ -264,11 +265,50 @@
 				$prev_elt.addClass('now_playing');
 				$play_btn.addClass("display_none");
 				$pause_btn.removeClass("display_none");
+				toggleCompactPlaylistCrtNext($player, $crt_elt, $prev_elt);
 			});
 
 			$player.find('.player_entry_left').on('click', function(){
 				var $next_elt = $(this).parent();
 				var $crt_elt = $player.find('.swp_music_player_entry.now_playing');
+
+				/*alow play pause from the playlist for compact player with under playlist*/
+				if ($(this).hasClass('compact_player_entry_left')) {
+					var $play_small_btn = $(this).find('.compact_bs_play');
+					var $pause_small_btn = $(this).find('.compact_bs_pause');
+					var crt_time = $crt_elt.find('audio').get(0).currentTime;
+
+					/*check if we need to pause*/
+					if ($next_elt.is($crt_elt) && (0 != crt_time)) {
+						if ($crt_elt.hasClass('now_paused')) {
+							/*continue playing if was paused*/
+							$crt_elt.find('audio').get(0).play();
+							$crt_elt.removeClass('now_paused');
+
+							showPauseHidePlay($play_small_btn, $pause_small_btn);
+							showPauseHidePlay($play_btn, $pause_btn);
+						} else {
+							/*pause song*/
+							$crt_elt.find('audio').get(0).pause();
+
+							showPlayHidePause($play_small_btn, $pause_small_btn);
+							showPlayHidePause($play_btn, $pause_btn);
+
+							$crt_elt.addClass('now_paused');
+						}
+
+						return;
+					} else {
+						/*show small pause button*/
+						showPauseHidePlay($play_small_btn, $pause_small_btn);
+						/*show small play for current*/
+						if (0 != crt_time) {
+							showPlayHidePause($crt_elt.find('.compact_bs_play'), $crt_elt.find('.compact_bs_pause'));	
+						}
+						
+					}
+				}
+
 				$crt_elt.find('audio').get(0).pause();
 				$crt_elt.removeClass('now_playing');
 
@@ -327,6 +367,48 @@
 
 				var $playlist = $player.find('.swp_music_player_entry').not('.now_playing').not('.mpfe_already_played').toArray();
 				return jQuery($playlist[Math.floor(Math.random() * $playlist.length)]);
+			}
+
+			var showPlayHidePause = function($playBtn, $pauseBtn) {
+    			$playBtn.removeClass('display_none');
+    			$pauseBtn.addClass('display_none');
+			}
+
+			var showPauseHidePlay = function($playBtn, $pauseBtn) {
+    			$playBtn.addClass('display_none');
+    			$pauseBtn.removeClass('display_none');
+			}
+
+			var toggleCompactPlaylistUnderPlayPause = function($player, $button_pressed = 'play') {
+				var $compact_playlist = $player.find('.swp-playlist-under');
+				if (!$compact_playlist.length) {
+					return;
+				}
+
+				var $crt_elt = $player.find('.swp_music_player_entry.now_playing');
+				var $play_small_btn = $crt_elt.find('.compact_bs_play');
+				var $pause_small_btn = $crt_elt.find('.compact_bs_pause');
+				if ('play' == $button_pressed) {
+					showPauseHidePlay($play_small_btn, $pause_small_btn);
+				} else {
+					showPlayHidePause($play_small_btn, $pause_small_btn);
+				}
+			}
+
+			var toggleCompactPlaylistCrtNext = function($player, $crt, $next) {
+				var $compact_playlist = $player.find('.swp-playlist-under');
+				if (!$compact_playlist.length) {
+					return;
+				}
+
+				var $crt_small_play = $crt.find('.compact_bs_play');
+				var $crt_small_pause = $crt.find('.compact_bs_pause');
+				showPlayHidePause($crt_small_play, $crt_small_pause);
+
+				var $next_small_play = $next.find('.compact_bs_play');
+				var $next_small_pause = $next.find('.compact_bs_pause');
+				showPauseHidePlay($next_small_play, $next_small_pause);
+
 			}
 
 			$player.find('i.playback-shuffle').on('click', function(e){
@@ -394,7 +476,6 @@
 		$toggle_vol.on('click', function() {
 			$range_vol.toggle();
 		})
-		console.log("After Volume click slider val: " + $slider.val());
 
 		$slider.on("input", function() {
 			$player.find('.swp_music_player_entry').each(function(){

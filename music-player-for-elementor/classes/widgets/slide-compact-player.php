@@ -418,6 +418,9 @@ class Widget_Slide_Compact_Player extends Widget_Base {
                 'is_external' => false,
                 'nofollow'    => false,
             ],
+            'dynamic'       => [
+                'active' => true,
+            ],
             'condition'     => [
                 'custom_purcase_link' => 'yes',
             ],
@@ -1484,7 +1487,7 @@ class Widget_Slide_Compact_Player extends Widget_Base {
 									<i class="fas fa-play player_play compact_play compact-playpause"></i>
 								</span>
 								<span class="compact-pause-container">
-									<i class="fas fa-pause compact_pause compact-playpause display_none"></i>
+									<i class="fas fa-pause player_pause compact_pause compact-playpause display_none"></i>
 								</span>
 							</div>
 						</div>
@@ -1650,9 +1653,10 @@ class Widget_Slide_Compact_Player extends Widget_Base {
 		<div class="swp_music_player_entry compact-player-entry clearfix" data-mediafile="<?php 
         echo esc_url( $audio_file_url );
         ?>">
-			<span class="swp_song_details player_entry_left">
-				<span class="play_icon">
-					<i class="fas fa-play before_song compact_bs"></i>
+			<span class="swp_song_details player_entry_left compact_player_entry_left">
+				<span class="play_icon compact_player_playlist_under_play">
+					<i class="fas fa-play before_song compact_bs compact_bs_play"></i>
+					<i class="fas fa-pause before_song compact_bs compact_bs_pause display_none"></i>
 				</span>
 				<span class="player_song_name transition3" data-albumname="<?php 
         echo esc_attr( $song['album_name'] );

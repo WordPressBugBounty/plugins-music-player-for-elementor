@@ -5,7 +5,7 @@ Donate link: https://smartwpress.com/
 Requires at least: 5.1
 Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 2.4.6
+Stable tag: 2.4.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,12 +119,18 @@ Yes, both Elementor audio player widgets work with any WordPress theme, whether 
 
 == Changelog ==
 
+= 2.4.7 =
+- add dynamic capability to the custom purchase link in the music player
+- improve the compact audio player play/pause appearance
+- add play/pause capability from the playlist for the compact audio player
+- security update
+
 = 2.4.6 =
-- add hours time format support for audio tracks longer than 60 mins
+- add hours time format support for audio player tracks longer than 60 mins
 
 = 2.4.5 =
 - fix regarding the volume slider for the compact music player in Firefox
-- add new compact player option to hide the volume control for mobile devices
+- add new compact audio player option to hide the volume control for mobile devices
 - add new option for both audio players to always play songs from the start
 
 = 2.4.4 =

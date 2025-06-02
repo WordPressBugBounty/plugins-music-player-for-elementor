@@ -557,8 +557,12 @@ i.compact-playpause {
 	color: #f6553c;
 	border-radius: 50%;
 	padding: 0 16px;
-	padding-left: 17px;
-	padding-right: 15px
+	padding-left: 19px;
+	padding-right: 17px
+}
+i.compact-playpause.compact_pause {
+	padding-left: 20px;
+	padding-right: 18px;
 }
 
 .compact-pause-container,

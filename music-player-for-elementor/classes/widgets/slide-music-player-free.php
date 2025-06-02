@@ -1202,7 +1202,7 @@ if ( !class_exists( "Widget_Slide_Music_Player_Free" ) ) {
                 ?>
 			<div class="swp_player_button_container">
 				<a class="mpfe_button mpfe_button_fill swp_player_button clearfix" href="<?php 
-                echo $settings['album_buy_url']['url'];
+                echo esc_url( $settings['album_buy_url']['url'] );
                 ?>" target="<?php 
                 echo esc_attr( $buy_target );
                 ?>">
@@ -1369,7 +1369,7 @@ if ( !class_exists( "Widget_Slide_Music_Player_Free" ) ) {
             ?></span>
 					</a>
 					<a href="#!" class="mpfe-sr-helper">
-						<i class="fas fa-pause display_none"></i>
+						<i class="fas fa-pause player_pause display_none"></i>
 						<span class="visually-hidden"><?php 
             echo esc_html__( "Pause", "music-player-for-elementor" );
             ?></span>
