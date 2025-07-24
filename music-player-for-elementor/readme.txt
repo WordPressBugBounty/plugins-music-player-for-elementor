@@ -1,19 +1,23 @@
 === Music Player for Elementor - Audio Player & Podcast Player===
-Contributors: smartwpress, freemius
+Contributors: smartwpress
 Tags: music player, audio player, mp3 player, podcast player, elementor widget
 Donate link: https://smartwpress.com/
 Requires at least: 5.1
 Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 2.4.7
+Stable tag: 2.4.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Promote your music with a stylish audio player addon for Elementor. Crafted to be easy to use and highly customizable mp3 player and podcast player.
+Audio Player for Elementor – the go-to plugin for adding MP3s, podcasts & playlists. Fully customizable, WooCommerce-ready, and mobile-friendly.
 
 == Description ==
 
-Music Player for Elementor is a professionally designed audio player for WordPress. Promote your music and discography in a stylish way, with a dedicated audio player Elementor widget that is very flexible and easy to use. The audio player WordPress plugin is perfect for musicians, music bands, music stores, artists, record labels, recording studios, DJs, podcasters, digital product stores and anyone working in the music industry. You can also integrate the Elementor music player with your eCommerce website, to promote and sell your music.
+Music Player for Elementor is a professionally designed audio player for WordPress. Promote your music and discography in a stylish way, with a dedicated music player Elementor widget that is very flexible and easy to use. The audio player WordPress plugin is perfect for musicians, music bands, music stores, artists, record labels, recording studios, DJs, podcasters, digital product stores and anyone working in the music industry. You can also integrate the Elementor music player with your eCommerce website, to promote and sell your music.
+
+★★★★★
+Best In Class: Music Player For Elementor
+> "Most customizable and reliable Elementor audio player I’ve used. Great design, easy to use, and excellent support from the developer." by - [Ben Davidson](https://wordpress.org/support/users/defytracks/)
 
 ★★★★★
 absolutely PERFECT
@@ -89,17 +93,23 @@ Yes! Music Player for Elementor uses the HTML5 audio tag, so it works smoothly a
 = Do I need a special configuration? =
 Just make sure you have the free version of Elementor page builder plugin installed and active. No other configuration is needed to use the Elementor audio player. 
 
+= Can I use Elementor to create a music playlist? =
+Yes. With the Music Player for Elementor plugin, you can easily create playlists using two dedicated audio player widgets. Just drag one of the widgets into your page and add multiple MP3 files. You can also customize the playlist layout, album cover, track details, and add promo or purchase links — all directly in the Elementor editor.
+
+= Is there a responsive MP3 player plugin for Elementor? =
+Absolutely. Music Player for Elementor is a fully responsive MP3 and podcast player plugin designed specifically for Elementor. It adapts seamlessly to all screen sizes, looks great on mobile and desktop, and offers powerful customization options to match your site's design.
+
 = How do I add the music player to my pages? =
 Edit any page, post or custom post type in Elementor page builder, search for "Music Player" in the widgets list and drag the music player Elementor widget anywhere on your page. You can add or remove songs to your playlist, customize the audio player images, add purchase links for your album, change the audio player layout or add individual promo links for each song. 
 
-= Can I add the music player using shortcode? =
+= Can I add the Elementor music player using shortcode? =
 Yes, you can save the player as Elementor template and insert the template anywhere in the content area using the shortcode visible on Elementor saved templates page.
 
 = Is the Music Player for Elementor responsive and mobile-friendly? =
 Yes, absolutely! The Music Player for Elementor is fully responsive and mobile-friendly, ensuring that your audio player looks and works perfectly on all devices. Whether your visitors are using desktops, tablets, or smartphones, the player automatically adjusts to fit any screen size without compromising on design or functionality.  You can confidently integrate this customizable MP3 player into your site, knowing it will deliver a seamless user experience across all platforms.
 
 = Can I sell music through the audio player? =
-Yes, the Elementor Music Player offers in the Pro version an advanced feature that allows you to link each song in the player directly with the WooCommerce product ID, making it easy to sell music directly through the mp3 player. Visitors can listen to a preview of the track and, with just a click, add the song to their WooCommerce shopping cart for purchase. 
+Yes. In the Pro version, Music Player for Elementor lets you sell MP3 tracks by linking each song to a WooCommerce product. Visitors can listen to a preview and purchase individual tracks or entire albums directly from the audio player — no extra setup required. This seamless WooCommerce integration makes it easy to sell your music or digital audio content from any Elementor page.
 
 = Does it work with any WordPress theme? =
 Yes, both Elementor audio player widgets work with any WordPress theme, whether you are using a dedicated music WordPress theme or a generic WordPress theme.
@@ -110,14 +120,19 @@ Yes, both Elementor audio player widgets work with any WordPress theme, whether 
 
 == Screenshots ==
 
-1. Built for Elementor
-2. Flexible playlist
-3. Unlimited colors
-4. Flexible layouts
-5. Compact Player - Podcaster Player Elementor Widget
-6. Mobile View - Elementor Podcast Player
+1. Music Player Widget for Elementor
+2. Elementor Audio Player With Flexible Playlist
+3. Customizable Elementor Audio Player - Unlimited Colors Options
+4. Multiple Layout Styles for the Elementor Audio Player
+5. Podcast player Elementor Widget – Compact Layout
+6. Mobile-friendly Elementor Podcast Player
 
 == Changelog ==
+
+= 2.4.8 =
+- improve first appearance when Elementor default colors option is active
+- rename generic css class to avoid conflicts with other themes/plugins
+- software update
 
 = 2.4.7 =
 - add dynamic capability to the custom purchase link in the music player

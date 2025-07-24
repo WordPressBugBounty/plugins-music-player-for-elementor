@@ -90,7 +90,7 @@ class Widget_Slide_Compact_Player extends Widget_Base {
      */
     public function get_keywords() {
         return [
-            'slide',
+            'music',
             'music player for elementor',
             'slide music player',
             'music',
@@ -1477,7 +1477,7 @@ class Widget_Slide_Compact_Player extends Widget_Base {
 				<div class="swp-compact-player-info">
 					<div class="compact-info-overlay album_right_overlay lc_swp_overlay"></div>
 					<div class="compact-info-content">
-						<div class="compact-info-top clearfix">
+						<div class="compact-info-top mpfe_clearfix">
 							<div class="compact-song-details">
 								<div class="current_song_name compact-song-name"></div>
 								<div class="current_album_name compact-album-name"></div>
@@ -1499,7 +1499,7 @@ class Widget_Slide_Compact_Player extends Widget_Base {
 							<div class="player_time_slider compact-player-slider"></div>
 						</div>
 
-						<div class="compact-info-bottom clearfix">
+						<div class="compact-info-bottom mpfe_clearfix">
 							<div class="compact-timeline">
 								<span class="song_current_progress compact_current_progress">0:00</span>
 								<span class="player_duration_sep compact_duration_sep">&#47;</span>
@@ -1650,7 +1650,7 @@ class Widget_Slide_Compact_Player extends Widget_Base {
     private function single_track_html( $song, $album_to_song_name = false ) {
         $audio_file_url = $song['audio_file'];
         ?>
-		<div class="swp_music_player_entry compact-player-entry clearfix" data-mediafile="<?php 
+		<div class="swp_music_player_entry compact-player-entry mpfe_clearfix" data-mediafile="<?php 
         echo esc_url( $audio_file_url );
         ?>">
 			<span class="swp_song_details player_entry_left compact_player_entry_left">
@@ -1680,7 +1680,7 @@ class Widget_Slide_Compact_Player extends Widget_Base {
 
 			<span class="entry_duration mpfe_fix_lh"></span>		
 
-			<span class="song_buy_icons compact_buy_icons transition3 clearfix mobile_visibility_<?php 
+			<span class="song_buy_icons compact_buy_icons transition3 mpfe_clearfix mobile_visibility_<?php 
         echo esc_attr( $song['show_icons_on_mobile'] );
         ?>">
 				<?php 

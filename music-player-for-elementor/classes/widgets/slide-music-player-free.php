@@ -1095,7 +1095,7 @@ if ( !class_exists( "Widget_Slide_Music_Player_Free" ) ) {
             $player_id = uniqid( "mpfe_" );
             ?>
 
-		<div class="swp_music_player clearfix" id="<?php 
+		<div class="swp_music_player mpfe_clearfix" id="<?php 
             echo esc_attr( $player_id );
             ?>" data-autoplay="<?php 
             echo esc_attr( $autoplay );
@@ -1201,7 +1201,7 @@ if ( !class_exists( "Widget_Slide_Music_Player_Free" ) ) {
             if ( strlen( $settings['album_buy_url']['url'] ) ) {
                 ?>
 			<div class="swp_player_button_container">
-				<a class="mpfe_button mpfe_button_fill swp_player_button clearfix" href="<?php 
+				<a class="mpfe_button mpfe_button_fill swp_player_button mpfe_clearfix" href="<?php 
                 echo esc_url( $settings['album_buy_url']['url'] );
                 ?>" target="<?php 
                 echo esc_attr( $buy_target );
@@ -1227,7 +1227,7 @@ if ( !class_exists( "Widget_Slide_Music_Player_Free" ) ) {
             $song_custom_img = ( mpfe_fs()->can_use_premium_code__premium_only() && isset( $song['song_custom_img'] ) ? $song['song_custom_img']['url'] : "" );
             ?>
 
-		<div class="swp_music_player_entry clearfix" data-mediafile="<?php 
+		<div class="swp_music_player_entry mpfe_clearfix" data-mediafile="<?php 
             echo esc_attr( $song['audio_file'] );
             ?>" data-trackimg="<?php 
             echo esc_attr( $song_custom_img );
@@ -1321,7 +1321,7 @@ if ( !class_exists( "Widget_Slide_Music_Player_Free" ) ) {
             $show_sr = ( "yes" == $show_shuffle_repeat ? true : false );
             if ( "bottom" == $position ) {
                 ?>
-			<div class="clearfix"></div>
+			<div class="mpfe_clearfix"></div>
 		<?php 
             }
             ?>

@@ -189,7 +189,8 @@ i.before_song {
 }
 
 i.before_song.compact_bs {
-	color: #fff
+	color: #fff;
+	background-color: transparent !important;
 }
 
 .player_song_name {
@@ -398,14 +399,14 @@ a.swp_player_button i {
 	display: none
 }
 
-.clearfix:after {
+.mpfe_clearfix:after {
 	clear: both;
 	height: 0;
 	visibility: hidden
 }
 
-.clearfix:after,
-.clearfix:before {
+.mpfe_clearfix:after,
+.mpfe_clearfix:before {
 	content: " ";
 	display: table
 }
