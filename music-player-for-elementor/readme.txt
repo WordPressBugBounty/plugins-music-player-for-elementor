@@ -1,11 +1,11 @@
 === Music Player for Elementor - Audio Player & Podcast Player===
-Contributors: smartwpress
+Contributors: smartwpress, freemius
 Tags: music player, audio player, mp3 player, podcast player, elementor widget
 Donate link: https://smartwpress.com/
 Requires at least: 5.1
 Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 2.4.8
+Stable tag: 2.4.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,7 +31,7 @@ Good quality plugin
 Best player plugin
 > "After using other plugins, it was a relief when I found Music Player. Easy to setup and it does exactly what I need. Thanks!" by - [dickscholten](https://wordpress.org/support/users/dickscholten/) 
 
-### EASY-TO-USE MUSIC PLAYER
+### EASY-TO-USE ELEMENTOR MUSIC PLAYER
 
 No initial configuration is needed to use the audio player. Install the plugin, edit any page in Elementor and drag the music player widget anywhere on your page. Using our Elementor music player, you can add songs to your playlist or remove existing songs from your playlist, customize the audio player images, connect with WooCommerce by adding purchase links for your entire album or for individual songs, change the audio player layout or add individual promo links for each song.
 
@@ -128,6 +128,9 @@ Yes, both Elementor audio player widgets work with any WordPress theme, whether 
 6. Mobile-friendly Elementor Podcast Player
 
 == Changelog ==
+
+= 2.4.9 =
+- fix beatport icon in the audio player playlist
 
 = 2.4.8 =
 - improve first appearance when Elementor default colors option is active

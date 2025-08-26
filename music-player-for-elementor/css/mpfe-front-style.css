@@ -108,6 +108,13 @@
 	float: left
 }
 
+.swp-icon-beatport:before {
+  content: "\e900";
+}
+i.swp-icon-beatport {
+	vertical-align: middle;
+}
+
 .swp_player_bottom_inner i.fa-pause,
 .swp_player_bottom_inner i.fa-play {
 	border-radius: 50%;

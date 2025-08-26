@@ -63,6 +63,8 @@ final class Load_Music_Player_For_Elementor {
 	public function load_front_scripts_and_styles() {
 		wp_enqueue_style('mpfe_front_style',  MPFE_DIR_URL . 'css/mpfe-front-style.css', array(), MPFE_VERSION);
 		wp_enqueue_style('font-awesome-5.15.1', MPFE_DIR_URL . 'assets/fontawesome-free-5.15.1/css/all.min.css', array(), '5.15.1', 'all');
+
+		wp_enqueue_style('swp-icomoon-beatport', MPFE_DIR_URL . 'assets/swp-icomoon-beatport/style.css', array(), MPFE_VERSION);
 	}
 
 	private function include_files() {
