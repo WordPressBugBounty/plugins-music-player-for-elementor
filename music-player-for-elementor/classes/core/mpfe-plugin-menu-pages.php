@@ -46,6 +46,16 @@ final class MPFE_Plugin_Menu_Pages {
             array($this, 'mpfe_musician_tools_page'),
             9999999
         );
+        /*sub-menu page: Analytics*/
+        // add_submenu_page(
+        // 	"mpfe-dashboard",
+        // 	esc_html__("Analytics", "music-player-for-elementor"),
+        // 	esc_html__("Analytics", "music-player-for-elementor"),
+        // 	"administrator",
+        // 	"mpfe-analytics",
+        // 	array($this, 'mpfe_analytics_page'),
+        // 	3
+        // );
     }
 
     public function mpfe_import_page() {
@@ -333,6 +343,8 @@ final class MPFE_Plugin_Menu_Pages {
 		<?php 
     }
 
+    // public function mpfe_analytics_page() {
+    // }
     public function mpfe_musician_tools_page() {
         $promo_url = "https://musicpack.smartwpress.com/";
         $more_widgets = array(

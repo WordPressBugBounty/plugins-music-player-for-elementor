@@ -448,6 +448,7 @@ class Widget_Slide_Compact_Player extends Widget_Base {
                 'custom_purcase_link' => 'yes',
             ],
         ] );
+        /*if PRO*/
         $repeater->add_control( 'show_icons_on_mobile', [
             'label'       => esc_html__( 'Icons Visibility On Mobile', 'music-player-for-elementor' ),
             'type'        => \Elementor\Controls_Manager::SELECT,
@@ -1718,27 +1719,85 @@ class Widget_Slide_Compact_Player extends Widget_Base {
         }
         ?>
 				<?php 
-        if ( "yes" == $song['custom_purcase_link'] && strlen( $song['custom_link']['url'] ) ) {
+        if ( "yes" == $song['custom_purcase_link'] ) {
             ?>
 					<?php 
-            $download_attribute = ( "yes" == $song['add_download_attribute'] ? "download" : "" );
-            ?>
-					<?php 
-            $link_target = ( "on" == $song['custom_link']['is_external'] ? "_blank" : "_self" );
-            ?>
-					<a target="<?php 
-            echo esc_attr( $link_target );
-            ?>" class="buy_song_icon" href="<?php 
-            echo esc_url( $song['custom_link']['url'] );
-            ?>" <?php 
-            echo esc_attr( $download_attribute );
-            ?>>
+            if ( strlen( $song['custom_link']['url'] ) ) {
+                ?>
 						<?php 
-            \Elementor\Icons_Manager::render_icon( $song['custom_icon'], [
-                'aria-hidden' => 'true',
-            ] );
+                $download_attribute = ( "yes" == $song['add_download_attribute'] ? "download" : "" );
+                ?>
+						<?php 
+                $link_target = ( "on" == $song['custom_link']['is_external'] ? "_blank" : "_self" );
+                ?>
+						<a target="<?php 
+                echo esc_attr( $link_target );
+                ?>" class="buy_song_icon" href="<?php 
+                echo esc_url( $song['custom_link']['url'] );
+                ?>" <?php 
+                echo esc_attr( $download_attribute );
+                ?>>
+							<?php 
+                \Elementor\Icons_Manager::render_icon( $song['custom_icon'], [
+                    'aria-hidden' => 'true',
+                ] );
+                ?>
+						</a>
+					<?php 
+            }
             ?>
-					</a>
+
+					<?php 
+            if ( isset( $song['custom_link_2'] ) && strlen( $song['custom_link_2']['url'] ) ) {
+                ?>
+						<?php 
+                $download_attribute = ( "yes" == $song['add_download_attribute_2'] ? "download" : "" );
+                ?>
+						<?php 
+                $link_target = ( "on" == $song['custom_link_2']['is_external'] ? "_blank" : "_self" );
+                ?>
+						<a target="<?php 
+                echo esc_attr( $link_target );
+                ?>" class="buy_song_icon" href="<?php 
+                echo esc_url( $song['custom_link_2']['url'] );
+                ?>" <?php 
+                echo esc_attr( $download_attribute );
+                ?>>
+							<?php 
+                \Elementor\Icons_Manager::render_icon( $song['custom_icon_2'], [
+                    'aria-hidden' => 'true',
+                ] );
+                ?>
+						</a>
+					<?php 
+            }
+            ?>
+
+					<?php 
+            if ( isset( $song['custom_link_3'] ) && strlen( $song['custom_link_3']['url'] ) ) {
+                ?>
+						<?php 
+                $download_attribute = ( "yes" == $song['add_download_attribute_3'] ? "download" : "" );
+                ?>
+						<?php 
+                $link_target = ( "on" == $song['custom_link_3']['is_external'] ? "_blank" : "_self" );
+                ?>
+						<a target="<?php 
+                echo esc_attr( $link_target );
+                ?>" class="buy_song_icon" href="<?php 
+                echo esc_url( $song['custom_link_3']['url'] );
+                ?>" <?php 
+                echo esc_attr( $download_attribute );
+                ?>>
+							<?php 
+                \Elementor\Icons_Manager::render_icon( $song['custom_icon_3'], [
+                    'aria-hidden' => 'true',
+                ] );
+                ?>
+						</a>
+					<?php 
+            }
+            ?>					
 				<?php 
         }
         ?>

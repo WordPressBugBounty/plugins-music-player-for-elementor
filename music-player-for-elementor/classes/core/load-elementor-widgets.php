@@ -124,6 +124,7 @@ class MPFE_Load_Elementor_Widgets {
 		);
 	}
 
+
 	/**
 	 *  Plugin class constructor
 	 *
