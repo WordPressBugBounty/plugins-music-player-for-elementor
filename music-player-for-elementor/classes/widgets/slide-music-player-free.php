@@ -61,7 +61,11 @@ if ( !class_exists( "Widget_Slide_Music_Player_Free" ) ) {
         }
 
         public function get_script_depends() {
-            return ['mpfe-front'];
+            $depends = array('mpfe-front');
+            if ( function_exists( 'mpfe_instance' ) ) {
+                $depends = array_merge( $depends, mpfe_instance()->get_analytics_tracking_script_depends() );
+            }
+            return $depends;
         }
 
         /**

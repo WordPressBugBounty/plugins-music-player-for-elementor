@@ -128,7 +128,9 @@ i.swp-icon-beatport {
 }
 
 .entry_duration {
-	float: right
+	float: right;
+	min-width: 35px;
+	text-align: right;
 }
 
 .player_play:hover,
@@ -172,7 +174,9 @@ i.swp-icon-beatport {
 }
 
 .player_time_slider.compact-player-slider {
-	margin-top: -5px
+	margin-top: -5px;
+	position: relative;
+	z-index: 1;
 }
 
 .show_on_bottom .player_time_slider {
@@ -979,8 +983,8 @@ ul.compact-ps-opts li {
 		height: 655px
 	}
 	.swp_player_content.controls_on_playlist_top {
-		margin-top: 135px;
-		height: calc(100% - 140px - 175px)
+		margin-top: 140px;
+		height: calc(100% - 145px - 175px);
 	}
 	.song_buy_icons.mobile_visibility_hide,
 	.swp_music_player_entry:hover .song_buy_icons.mobile_visibility_hide {

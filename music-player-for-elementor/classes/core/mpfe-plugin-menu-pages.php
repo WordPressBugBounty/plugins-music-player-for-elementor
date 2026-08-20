@@ -47,15 +47,18 @@ final class MPFE_Plugin_Menu_Pages {
             9999999
         );
         /*sub-menu page: Analytics*/
-        // add_submenu_page(
-        // 	"mpfe-dashboard",
-        // 	esc_html__("Analytics", "music-player-for-elementor"),
-        // 	esc_html__("Analytics", "music-player-for-elementor"),
-        // 	"administrator",
-        // 	"mpfe-analytics",
-        // 	array($this, 'mpfe_analytics_page'),
-        // 	3
-        // );
+        $analytics_hook = add_submenu_page(
+            "mpfe-dashboard",
+            esc_html__( "Analytics", "music-player-for-elementor" ),
+            esc_html__( "Analytics", "music-player-for-elementor" ),
+            "manage_options",
+            "mpfe-analytics",
+            array($this, 'mpfe_analytics_page'),
+            3
+        );
+        if ( class_exists( 'MPFE_Analytics_Admin' ) ) {
+            MPFE_Analytics_Admin::set_page_hook( $analytics_hook );
+        }
     }
 
     public function mpfe_import_page() {
@@ -222,6 +225,15 @@ final class MPFE_Plugin_Menu_Pages {
 			</div>
 
 			<div class="wpfe_wrap_block">
+				<h4><span class="vibrant_color">New!</span> <span class="vibrant_color">Audio Analytics</span> for your music and podcasts.</h4>
+				<div class="mpfe_wrap_desc">
+					Starting with version 2.6, Music Player for Elementor Pro includes a built-in <strong>Audio Analytics dashboard</strong> that helps you understand how visitors interact with your audio content. Track <strong>total plays, listen time, completed plays, average listen time, top tracks and top pages</strong> directly inside WordPress Admin. You can access your listening statistics anytime from <a href="<?php 
+        echo esc_url( admin_url( 'admin.php?page=mpfe-analytics' ) );
+        ?>"><strong>Music Player for Elementor → Analytics</strong></a>.
+				</div>
+			</div>
+
+			<div class="wpfe_wrap_block">
 				<h4>Do I need a special configuration?</h4>
 				<div class="mpfe_wrap_desc">
 					No initial configuration is needed to use the audio player. Just make sure you have the free version of <strong>Elementor plugin installed and active</strong>. 
@@ -343,8 +355,10 @@ final class MPFE_Plugin_Menu_Pages {
 		<?php 
     }
 
-    // public function mpfe_analytics_page() {
-    // }
+    public function mpfe_analytics_page() {
+        MPFE_Analytics_Admin::render_page();
+    }
+
     public function mpfe_musician_tools_page() {
         $promo_url = "https://musicpack.smartwpress.com/";
         $more_widgets = array(

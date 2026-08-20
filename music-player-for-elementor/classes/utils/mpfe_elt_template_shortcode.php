@@ -29,6 +29,11 @@ class MPFE_Elt_Template_Shortcode {
 
         $elementorInstance = \Elementor\Plugin::instance();
         $templateContent = $elementorInstance->frontend->get_builder_content($atts['id']);
+
+        if (false !== strpos($templateContent, 'swp_music_player_entry') && function_exists('mpfe_instance')) {
+            mpfe_instance()->enqueue_analytics_tracking();
+        }
+
         echo apply_filters('the_content', $templateContent);
 
 	    return ob_get_clean();

@@ -4,9 +4,9 @@
  * Plugin Name: Music Player for Elementor
  * Plugin URI: https://smartwpress.com/music-player-for-elementor-wordpress-plugin/
  * Description: Music Player For Elementor is a stylish audio player addon for Elementor. Promote your music with an easy to use and highly customizable mp3 player and audio player.
- * Version: 2.5
- * Tested up to: 6.9
- * Elementor tested up to: 3.33.4
+ * Version: 2.6
+ * Tested up to: 7.1
+ * Elementor tested up to: 4.2.3
  * Author: SmartWPress
  * Author URI: https://www.smartwpress.com
  * Text Domain: music-player-for-elementor
@@ -25,23 +25,24 @@ if ( !function_exists( 'mpfe_fs' ) ) {
             // Include Freemius SDK.
             require_once dirname( __FILE__ ) . '/freemius/start.php';
             $mpfe_fs = fs_dynamic_init( array(
-                'id'             => '9253',
-                'slug'           => 'music-player-for-elementor',
-                'type'           => 'plugin',
-                'public_key'     => 'pk_2b1ebb46c2b0a776611c41a8a29ef',
-                'is_premium'     => false,
-                'premium_suffix' => '',
-                'has_addons'     => false,
-                'has_paid_plans' => true,
-                'trial'          => array(
+                'id'               => '9253',
+                'slug'             => 'music-player-for-elementor',
+                'type'             => 'plugin',
+                'public_key'       => 'pk_2b1ebb46c2b0a776611c41a8a29ef',
+                'is_premium'       => false,
+                'premium_suffix'   => '',
+                'has_addons'       => false,
+                'has_paid_plans'   => true,
+                'trial'            => array(
                     'days'               => 7,
                     'is_require_payment' => false,
                 ),
-                'menu'           => array(
+                'menu'             => array(
                     'slug'       => 'mpfe-dashboard',
                     'first-path' => 'admin.php?page=mpfe-dashboard',
                 ),
-                'is_live'        => true,
+                'is_live'          => true,
+                'is_org_compliant' => true,
             ) );
         }
         return $mpfe_fs;
@@ -53,7 +54,10 @@ if ( !function_exists( 'mpfe_fs' ) ) {
     do_action( 'mpfe_fs_loaded' );
 }
 if ( !defined( 'MPFE_VERSION' ) ) {
-    define( 'MPFE_VERSION', '2.5' );
+    define( 'MPFE_VERSION', '2.6' );
+}
+if ( !defined( 'MPFE_DB_VERSION' ) ) {
+    define( 'MPFE_DB_VERSION', '1.0.3' );
 }
 if ( !defined( 'MPFE_DIR_PATH' ) ) {
     define( 'MPFE_DIR_PATH', plugin_dir_path( __FILE__ ) );

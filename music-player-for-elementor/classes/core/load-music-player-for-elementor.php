@@ -20,12 +20,18 @@ final class Load_Music_Player_For_Elementor {
 	 */
 	public function __construct() {
 		add_action('init', array($this, 'init'));
+		add_action('admin_init', array($this, 'mpfe_maybe_upgrade_db'));
 		add_action('admin_enqueue_scripts', array($this, 'load_admin_scripts_and_styles'));
+		add_action('admin_enqueue_scripts', array($this, 'load_analytics_admin_assets'));
 		add_action('wp_enqueue_scripts', array($this, 'load_front_scripts_and_styles'));
 		add_action('activated_plugin', array($this, 'mpfe_redirect_to_dash'));
 		add_filter('plugin_action_links_' . MPFE_BASE, array($this, 'add_action_links'));
 
 		$this->include_files();
+
+		if (class_exists('MPFE_Analytics_Recorder')) {
+			MPFE_Analytics_Recorder::register_hooks();
+		}
 
 		register_activation_hook(MPFE_PLUGIN_FILE, array($this, 'mpfe_on_activate'));
 		register_deactivation_hook(MPFE_PLUGIN_FILE, array($this, 'mpfe_on_deactivate'));
@@ -65,11 +71,96 @@ final class Load_Music_Player_For_Elementor {
 		wp_enqueue_style('font-awesome-5.15.1', MPFE_DIR_URL . 'assets/fontawesome-free-5.15.1/css/all.min.css', array(), '5.15.1', 'all');
 
 		wp_enqueue_style('swp-icomoon-beatport', MPFE_DIR_URL . 'assets/swp-icomoon-beatport/style.css', array(), MPFE_VERSION);
+
+		wp_register_script('mpfe_analytics_tracking', MPFE_DIR_URL . 'js/mpfe-analytics-tracking.js', array('jquery', 'mpfe-front'), MPFE_VERSION . '-analytics-v2', true);
+
+		if (! $this->is_analytics_tracking_available()) {
+			return;
+		}
+
+		$request_uri = isset($_SERVER['REQUEST_URI']) ? esc_url_raw(wp_unslash($_SERVER['REQUEST_URI'])) : '';
+		$page_url = home_url($request_uri);
+
+		wp_localize_script('mpfe_analytics_tracking', 'mpfeAnalyticsData', array(
+				'enabled'	=>	true,
+				'ajaxurl'	=>	admin_url('admin-ajax.php'),
+				'nonce'		=>	wp_create_nonce('mpfe_analytics_nonce'),
+				'pageId'	=>	get_queried_object_id(),
+				'pageTitle'	=>	wp_get_document_title(),
+				'pageUrl'	=>	esc_url_raw($page_url),
+			)
+		);
+	}
+
+	/**
+	 * Returns the analytics tracker dependency when frontend tracking is available.
+	 *
+	 * @return array
+	 */
+	public function get_analytics_tracking_script_depends() {
+		if (! $this->is_analytics_tracking_available()) {
+			return array();
+		}
+
+		return array('mpfe_analytics_tracking');
+	}
+
+	/**
+	 * Enqueue the analytics tracker for a supported rendering path that does not
+	 * receive Elementor widget dependencies automatically.
+	 */
+	public function enqueue_analytics_tracking() {
+		if ($this->is_analytics_tracking_available()) {
+			wp_enqueue_script('mpfe_analytics_tracking');
+		}
+	}
+
+	/**
+	 * Determine whether frontend analytics tracking can be loaded for this request.
+	 *
+	 * @return bool
+	 */
+	private function is_analytics_tracking_available() {
+		return function_exists('mpfe_fs') && mpfe_fs()->can_use_premium_code__premium_only() && ! $this->is_elementor_editor_context();
+	}
+
+	/**
+	 * Determine whether the current frontend request is Elementor's editor or
+	 * its internal preview frame. Elementor's editor API covers the preview
+	 * request on supported versions; the preview API is checked when available
+	 * for compatibility with versions that expose it separately.
+	 *
+	 * @return bool
+	 */
+	private function is_elementor_editor_context() {
+		if (! did_action('elementor/loaded') || ! class_exists('\\Elementor\\Plugin')) {
+			return false;
+		}
+
+		$elementor = \Elementor\Plugin::instance();
+
+		if (isset($elementor->editor) && method_exists($elementor->editor, 'is_edit_mode') && $elementor->editor->is_edit_mode()) {
+			return true;
+		}
+
+		if (isset($elementor->preview) && method_exists($elementor->preview, 'is_preview_mode') && $elementor->preview->is_preview_mode()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public function load_analytics_admin_assets($hook) {
+		MPFE_Analytics_Admin::enqueue_assets($hook);
 	}
 
 	private function include_files() {
 		require_once(MPFE_DIR_PATH."/classes/core/mpfe-check-elementor.php");
 		require_once(MPFE_DIR_PATH."/classes/core/mpfe-plugin-menu-pages.php");
+		require_once(MPFE_DIR_PATH . "/classes/analytics/class-mpfe-analytics-db.php");
+		require_once(MPFE_DIR_PATH . "/classes/analytics/class-mpfe-analytics-recorder.php");
+		require_once(MPFE_DIR_PATH . "/classes/analytics/class-mpfe-analytics-reports.php");
+		require_once(MPFE_DIR_PATH . "/classes/analytics/class-mpfe-analytics-admin.php");
 	}
 
 	public function mpfe_redirect_to_dash($plugin) {
@@ -89,9 +180,19 @@ final class Load_Music_Player_For_Elementor {
 		return array_merge($links, $cust_links);
 	}
 
+	public function mpfe_maybe_upgrade_db() {
+		if (class_exists('MPFE_Analytics_DB')) {
+			MPFE_Analytics_DB::maybe_upgrade();
+		}
+	}
+
 	public function mpfe_on_activate() {
 		add_option('mpfe_install_date', date('Y-m-d h:i:s'));
 		add_option('mpfe_already_shown_rate_notice', "no");
+
+		if (class_exists('MPFE_Analytics_DB')) {
+			MPFE_Analytics_DB::maybe_upgrade();
+		}
 	}
 
 	public function mpfe_on_deactivate() {
@@ -100,6 +201,15 @@ final class Load_Music_Player_For_Elementor {
 	}
 
 	public function mpfe_rate_notice() {
+		// Do not show the rating notice on the Analytics page.
+	    if (
+	        isset($_GET['page']) &&
+	        !is_array($_GET['page']) &&
+	        'mpfe-analytics' === sanitize_key(wp_unslash($_GET['page']))
+	    ) {
+	        return;
+	    }
+
 		$notice_shown = get_option('mpfe_already_shown_rate_notice');
 
 		if ("yes" == $notice_shown) {

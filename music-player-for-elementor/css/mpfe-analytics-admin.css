@@ -1,0 +1,241 @@
+.mpfe-analytics-wrap {
+    max-width: 1400px;
+}
+
+.mpfe-analytics-wrap,
+.mpfe-analytics-wrap * {
+    box-sizing: border-box;
+}
+
+.mpfe-analytics-cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.mpfe-analytics-card {
+    min-width: 0;
+    padding: 18px 20px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #c3c4c7;
+    border-top: 3px solid #d63678;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.mpfe-analytics-card:nth-child(2) {
+    border-top-color: #2271b1;
+}
+
+.mpfe-analytics-card:nth-child(3) {
+    border-top-color: #008a20;
+}
+
+.mpfe-analytics-card:nth-child(4) {
+    border-top-color: #996800;
+}
+
+.mpfe-analytics-card span,
+.mpfe-analytics-card strong {
+    display: block;
+    overflow-wrap: anywhere;
+}
+
+.mpfe-analytics-card span {
+    color: #50575e;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.mpfe-analytics-card strong {
+    margin-top: 8px;
+    color: #1d2327;
+    font-size: 28px;
+    line-height: 1.2;
+}
+
+.mpfe-analytics-chart,
+.mpfe-analytics-table {
+    min-width: 0;
+    margin: 0 0 20px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.mpfe-analytics-chart h2,
+.mpfe-analytics-table h2 {
+    margin: 0 0 16px;
+    color: #1d2327;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.mpfe-analytics-chart-header {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.mpfe-analytics-chart-header h2 {
+    margin: 0;
+}
+
+.mpfe-analytics-periods {
+    display: inline-flex;
+    max-width: 100%;
+    border: 1px solid #8c8f94;
+    border-radius: 4px;
+}
+
+.mpfe-analytics-periods a {
+    padding: 7px 10px;
+    color: #2271b1;
+    text-decoration: none;
+    white-space: nowrap;
+    border-right: 1px solid #8c8f94;
+}
+
+.mpfe-analytics-periods a:last-child {
+    border-right: 0;
+}
+
+.mpfe-analytics-periods a[aria-current="page"] {
+    color: #ffffff;
+    background: #2271b1;
+}
+
+.mpfe-analytics-periods a:focus {
+    position: relative;
+    z-index: 1;
+}
+
+.mpfe-analytics-chart-container {
+    position: relative;
+    width: 100%;
+    height: 360px;
+    min-height: 280px;
+}
+
+.mpfe-analytics-chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.mpfe-analytics-tables {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.mpfe-analytics-table {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.mpfe-analytics-table table {
+    min-width: 560px;
+    table-layout: fixed;
+}
+
+.mpfe-analytics-table th,
+.mpfe-analytics-table td {
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+.mpfe-analytics-table th:not(:first-child),
+.mpfe-analytics-table td:not(:first-child) {
+    width: 22%;
+}
+
+.mpfe-analytics-table a {
+    overflow-wrap: anywhere;
+}
+
+.mpfe-analytics-upgrade {
+    display: flex;
+    min-height: calc(100vh - 100px);
+    align-items: center;
+    justify-content: center;
+}
+
+.mpfe-analytics-upgrade-content {
+    width: 100%;
+    max-width: 620px;
+    padding: 40px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.mpfe-analytics-upgrade-content h1,
+.mpfe-analytics-upgrade-content p {
+    overflow-wrap: anywhere;
+}
+
+.mpfe-analytics-upgrade-content p {
+    margin: 16px auto 24px;
+    max-width: 520px;
+    color: #50575e;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.mpfe-analytics-upgrade-icon {
+    width: 72px;
+    height: 72px;
+}
+
+@media screen and (max-width: 960px) {
+    .mpfe-analytics-cards,
+    .mpfe-analytics-tables {
+        grid-template-columns: 1fr;
+    }
+
+    .mpfe-analytics-chart-container {
+        height: 320px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .mpfe-analytics-chart,
+    .mpfe-analytics-table,
+    .mpfe-analytics-upgrade-content {
+        padding: 16px;
+    }
+
+    .mpfe-analytics-card strong {
+        font-size: 24px;
+    }
+
+    .mpfe-analytics-chart-container {
+        height: 280px;
+    }
+
+    .mpfe-analytics-chart-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .mpfe-analytics-periods {
+        display: flex;
+        width: 100%;
+    }
+
+    .mpfe-analytics-periods a {
+        flex: 1 1 0;
+        padding-right: 6px;
+        padding-left: 6px;
+        text-align: center;
+        white-space: normal;
+    }
+}
