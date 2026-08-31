@@ -84,6 +84,7 @@ final class Load_Music_Player_For_Elementor {
 		wp_localize_script('mpfe_analytics_tracking', 'mpfeAnalyticsData', array(
 				'enabled'	=>	true,
 				'ajaxurl'	=>	admin_url('admin-ajax.php'),
+				'analyticsRestUrl' => rest_url('mpfe/v1/analytics'),
 				'nonce'		=>	wp_create_nonce('mpfe_analytics_nonce'),
 				'pageId'	=>	get_queried_object_id(),
 				'pageTitle'	=>	wp_get_document_title(),

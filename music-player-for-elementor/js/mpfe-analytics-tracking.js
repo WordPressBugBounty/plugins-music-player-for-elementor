@@ -11,6 +11,8 @@
 	var recoveryBurstDelayMilliseconds = 1000;
 	var unloadListenLimitSeconds = 300;
 	var nonce = window.mpfeAnalyticsData.nonce;
+	var analyticsRestUrl = window.mpfeAnalyticsData.analyticsRestUrl || '';
+	var restEndpointAvailable = !!analyticsRestUrl;
 	var initialNonceRefreshAttempted = false;
 	var nonceRefreshInProgress = false;
 	var nonceCallbacks = [];
@@ -148,7 +150,7 @@
 		};
 	};
 
-	var postEvent = function(data, retried, onSuccess, onFailure) {
+	var postAjaxEvent = function(data, retried, onSuccess, onFailure) {
 		data.nonce = nonce;
 
 		$.ajax({
@@ -164,11 +166,30 @@
 			error: function(xhr) {
 				if (!retried && isNonceFailure(xhr)) {
 					refreshNonce(function() {
-						postEvent(data, true, onSuccess, onFailure);
+						postAjaxEvent(data, true, onSuccess, onFailure);
 					});
 					return;
 				}
 
+				if ('function' === typeof onFailure) {
+					onFailure(xhr);
+				}
+			}
+		});
+	};
+
+	var postRestEvent = function(data, onSuccess, onFailure) {
+		$.ajax({
+			url: analyticsRestUrl,
+			type: 'post',
+			dataType: 'json',
+			data: data,
+			success: function() {
+				if ('function' === typeof onSuccess) {
+					onSuccess();
+				}
+			},
+			error: function(xhr) {
 				if ('function' === typeof onFailure) {
 					onFailure(xhr);
 				}
@@ -196,10 +217,12 @@
 			}
 
 			var unloadData = new URLSearchParams(data);
+			// Beacons cannot inspect a REST error response and therefore cannot safely fall back.
+			var analyticsEndpointUrl = window.mpfeAnalyticsData.ajaxurl;
 
 			if (navigator.sendBeacon) {
 				try {
-					if (true === navigator.sendBeacon(window.mpfeAnalyticsData.ajaxurl, unloadData)) {
+					if (true === navigator.sendBeacon(analyticsEndpointUrl, unloadData)) {
 						onAccepted();
 						return true;
 					}
@@ -210,7 +233,7 @@
 
 			if ('function' === typeof window.fetch) {
 				try {
-					var request = window.fetch(window.mpfeAnalyticsData.ajaxurl, {
+					var request = window.fetch(analyticsEndpointUrl, {
 						method: 'POST',
 						credentials: 'same-origin',
 						body: unloadData,
@@ -235,11 +258,28 @@
 			return false;
 		}
 
-		var send = function() {
-			postEvent(data, false, onAccepted, onFailure);
+		var sendAjax = function() {
+			withInitialNonce(function() {
+				postAjaxEvent(data, false, onAccepted, onFailure);
+			});
 		};
 
-		withInitialNonce(send);
+		if (restEndpointAvailable) {
+			postRestEvent(data, onAccepted, function(xhr) {
+				if (xhr && 429 === xhr.status) {
+					if ('function' === typeof onFailure) {
+						onFailure(xhr);
+					}
+					return;
+				}
+
+				restEndpointAvailable = false;
+				sendAjax();
+			});
+		} else {
+			sendAjax();
+		}
+
 		return true;
 	};
 

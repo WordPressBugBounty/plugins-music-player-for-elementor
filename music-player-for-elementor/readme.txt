@@ -5,7 +5,7 @@ Donate link: https://smartwpress.com/
 Requires at least: 5.1
 Tested up to: 7.1
 Requires PHP: 7.0
-Stable tag: 2.6
+Stable tag: 2.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -149,9 +149,12 @@ Yes, both Elementor audio player widgets work with any WordPress theme, whether 
 4. Multiple Layout Styles for the Elementor Audio Player
 5. Podcast player Elementor Widget – Compact Layout
 6. Mobile-friendly Elementor Podcast Player
-7. Audio analytics dashboard for the Elementor music player and podcast player
 
 == Changelog ==
+
+= 2.6.1 =
+- fix MariaDB analytics migration
+- improved Pro audio player analytics reliability and event delivery
 
 = 2.6 =
 - improve song duration alignment for the album audio player

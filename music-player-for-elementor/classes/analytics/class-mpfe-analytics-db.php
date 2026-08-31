@@ -34,16 +34,26 @@ class MPFE_Analytics_DB {
 	public static function maybe_upgrade() {
 		$installed_version = get_option(self::DB_VERSION_OPTION);
 
-		if ($installed_version === MPFE_DB_VERSION && self::table_exists(self::events_table()) && self::table_exists(self::summary_table()) && self::has_required_schema()) {
+		if ($installed_version === MPFE_DB_VERSION && self::table_exists(self::events_table()) && self::table_exists(self::summary_table())) {
 			return;
 		}
 
-		self::create_tables();
+		global $wpdb;
 
-		if (self::table_exists(self::events_table()) && self::table_exists(self::summary_table()) && self::has_required_schema()) {
-			// Analytics is pre-release, so safely rebuilding the derived summary is simpler than migrating it.
-			self::reset_summary_state();
-			update_option(self::DB_VERSION_OPTION, MPFE_DB_VERSION);
+		$previous_suppress_errors = $wpdb->suppress_errors(true);
+		$previous_show_errors = $wpdb->show_errors(false);
+
+		try {
+			self::create_tables();
+
+			if (self::table_exists(self::events_table()) && self::table_exists(self::summary_table()) && self::has_required_schema()) {
+				// Analytics is pre-release, so safely rebuilding the derived summary is simpler than migrating it.
+				self::reset_summary_state();
+				update_option(self::DB_VERSION_OPTION, MPFE_DB_VERSION);
+			}
+		} finally {
+			$wpdb->show_errors($previous_show_errors);
+			$wpdb->suppress_errors($previous_suppress_errors);
 		}
 	}
 
@@ -179,7 +189,7 @@ class MPFE_Analytics_DB {
 	private static function has_event_type_created_at_index() {
 		global $wpdb;
 
-		$index = $wpdb->get_results("SHOW INDEX FROM " . self::events_table() . " WHERE Key_name = 'event_type_created_at' ORDER BY Seq_in_index ASC", ARRAY_A);
+		$index = $wpdb->get_results("SHOW INDEX FROM " . self::events_table() . " WHERE Key_name = 'event_type_created_at'", ARRAY_A);
 
 		return 2 === count($index) && 'event_type' === $index[0]['Column_name'] && 'created_at' === $index[1]['Column_name'];
 	}

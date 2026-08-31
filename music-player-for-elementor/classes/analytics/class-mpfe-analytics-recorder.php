@@ -19,6 +19,15 @@ class MPFE_Analytics_Recorder {
 		add_action('wp_ajax_nopriv_mpfe_record_analytics_event', array(__CLASS__, 'record_event'));
 		add_action('wp_ajax_mpfe_get_analytics_nonce', array(__CLASS__, 'get_nonce'));
 		add_action('wp_ajax_nopriv_mpfe_get_analytics_nonce', array(__CLASS__, 'get_nonce'));
+		add_action('rest_api_init', array(__CLASS__, 'register_rest_route'));
+	}
+
+	public static function register_rest_route() {
+		register_rest_route('mpfe/v1', '/analytics', array(
+			'methods'             => 'POST',
+			'callback'            => array(__CLASS__, 'record_rest_event'),
+			'permission_callback' => '__return_true',
+		));
 	}
 
 	public static function get_nonce() {
@@ -35,51 +44,74 @@ class MPFE_Analytics_Recorder {
 			wp_send_json_error(array('message' => esc_html__('Invalid analytics request.', 'music-player-for-elementor')), 403);
 		}
 
-		if (!self::is_pro_enabled()) {
-			wp_send_json_error(array('message' => esc_html__('Analytics recording requires Pro.', 'music-player-for-elementor')), 403);
+		$result = self::record_event_data(wp_unslash($_POST));
+
+		if (is_wp_error($result)) {
+			$error_data = $result->get_error_data();
+			$status = is_array($error_data) && isset($error_data['status']) ? (int) $error_data['status'] : 400;
+
+			wp_send_json_error(array('message' => $result->get_error_message()), $status);
 		}
 
-		$event_type = sanitize_key(self::get_post_value('event_type'));
+		wp_send_json_success();
+	}
+
+	public static function record_rest_event($request) {
+		$result = self::record_event_data($request->get_params());
+
+		if (is_wp_error($result)) {
+			return $result;
+		}
+
+		return new WP_REST_Response(array('success' => true), 200);
+	}
+
+	private static function record_event_data($values) {
+		if (!self::is_pro_enabled()) {
+			return self::error('Analytics recording requires Pro.', 403);
+		}
+
+		$event_type = sanitize_key(self::get_request_value($values, 'event_type'));
 		$allowed_events = array('play', 'pause', 'completed', 'listen_time');
 
 		if (!in_array($event_type, $allowed_events, true)) {
-			wp_send_json_error(array('message' => esc_html__('Invalid analytics event type.', 'music-player-for-elementor')), 400);
+			return self::error('Invalid analytics event type.', 400);
 		}
 
-		$audio_url = self::get_url_value('audio_url', self::MAX_AUDIO_URL_LENGTH);
+		$audio_url = self::get_url_value($values, 'audio_url', self::MAX_AUDIO_URL_LENGTH);
 
 		if (empty($audio_url)) {
-			wp_send_json_error(array('message' => esc_html__('Missing audio URL.', 'music-player-for-elementor')), 400);
+			return self::error('Missing audio URL.', 400);
 		}
 
-		$page_id = self::get_non_negative_integer('page_id');
-		$page_title = self::truncate_text(sanitize_text_field(self::get_post_value('page_title')), self::MAX_PAGE_TITLE_LENGTH);
-		$page_url = self::get_url_value('page_url', self::MAX_PAGE_URL_LENGTH);
-		$listen_seconds = self::get_non_negative_integer('listen_seconds');
-		$duration_seconds = self::get_non_negative_integer('duration_seconds');
-		$unload = '1' === sanitize_text_field(self::get_post_value('unload'));
+		$page_id = self::get_non_negative_integer($values, 'page_id');
+		$page_title = self::truncate_text(sanitize_text_field(self::get_request_value($values, 'page_title')), self::MAX_PAGE_TITLE_LENGTH);
+		$page_url = self::get_url_value($values, 'page_url', self::MAX_PAGE_URL_LENGTH);
+		$listen_seconds = self::get_non_negative_integer($values, 'listen_seconds');
+		$duration_seconds = self::get_non_negative_integer($values, 'duration_seconds');
+		$unload = '1' === sanitize_text_field(self::get_request_value($values, 'unload'));
 		$listen_limit = $unload ? self::UNLOAD_LISTEN_LIMIT : self::REGULAR_LISTEN_LIMIT;
-		$client_id = self::get_client_id();
-		$event_id = strtolower(self::get_post_value('event_id'));
+		$client_id = self::get_client_id($values);
+		$event_id = strtolower(self::get_request_value($values, 'event_id'));
 
 		if (empty($client_id) || null === $page_id || null === $listen_seconds || null === $duration_seconds || !preg_match('/^[a-f0-9]{32}$/', $event_id)) {
-			wp_send_json_error(array('message' => esc_html__('Invalid analytics event data.', 'music-player-for-elementor')), 400);
+			return self::error('Invalid analytics event data.', 400);
 		}
 
 		if (empty($page_url) || !self::is_current_site_url($page_url)) {
-			wp_send_json_error(array('message' => esc_html__('Invalid analytics page URL.', 'music-player-for-elementor')), 400);
+			return self::error('Invalid analytics page URL.', 400);
 		}
 
 		if ($duration_seconds > DAY_IN_SECONDS) {
-			wp_send_json_error(array('message' => esc_html__('Audio duration exceeds the analytics limit.', 'music-player-for-elementor')), 400);
+			return self::error('Audio duration exceeds the analytics limit.', 400);
 		}
 
 		if ('listen_time' !== $event_type) {
 			$listen_seconds = 0;
 		} elseif ($listen_seconds < 1 || $listen_seconds > $listen_limit) {
-			wp_send_json_error(array('message' => sprintf(esc_html__('Listen time must be between 1 and %d seconds.', 'music-player-for-elementor'), $listen_limit)), 400);
+			return self::error(sprintf('Listen time must be between 1 and %d seconds.', $listen_limit), 400);
 		} elseif ($duration_seconds > 0 && $listen_seconds > $duration_seconds) {
-			wp_send_json_error(array('message' => esc_html__('Listen time cannot exceed audio duration.', 'music-player-for-elementor')), 400);
+			return self::error('Listen time cannot exceed audio duration.', 400);
 		}
 
 		$event = array(
@@ -98,16 +130,24 @@ class MPFE_Analytics_Recorder {
 		$rate_window = (int) floor(time() / self::RATE_LIMIT_WINDOW);
 
 		if (!self::allow_rate($client_id, self::CLIENT_RATE_LIMIT, $rate_window) || !self::allow_rate(self::get_ip_identifier(), self::IP_RATE_LIMIT, $rate_window)) {
-			wp_send_json_error(array('message' => esc_html__('Analytics request limit reached.', 'music-player-for-elementor')), 429);
+			return self::error('Analytics request limit reached.', 429);
 		}
 
 		$result = MPFE_Analytics_DB::insert_event($event);
 
 		if (false === $result) {
-			wp_send_json_error(array('message' => esc_html__('Could not record analytics event.', 'music-player-for-elementor')), 500);
+			return self::error('Could not record analytics event.', 500);
 		}
 
-		wp_send_json_success();
+		return true;
+	}
+
+	private static function error($message, $status) {
+		return new WP_Error(
+			'mpfe_analytics_recording_failed',
+			esc_html__($message, 'music-player-for-elementor'),
+			array('status' => $status)
+		);
 	}
 
 	private static function get_file_name($audio_url) {
@@ -120,8 +160,8 @@ class MPFE_Analytics_Recorder {
 		return self::truncate_text(sanitize_file_name(rawurldecode(basename($path))), 255);
 	}
 
-	private static function get_url_value($key, $maximum_length) {
-		$value = trim(self::get_post_value($key));
+	private static function get_url_value($values, $key, $maximum_length) {
+		$value = trim(self::get_request_value($values, $key));
 
 		if (empty($value) || strlen($value) > $maximum_length) {
 			return '';
@@ -130,8 +170,8 @@ class MPFE_Analytics_Recorder {
 		return esc_url_raw($value);
 	}
 
-	private static function get_non_negative_integer($key) {
-		$value = self::get_post_value($key);
+	private static function get_non_negative_integer($values, $key) {
+		$value = self::get_request_value($values, $key);
 
 		if (!preg_match('/^\d{1,19}$/', $value)) {
 			return null;
@@ -184,8 +224,8 @@ class MPFE_Analytics_Recorder {
 		return false;
 	}
 
-	private static function get_client_id() {
-		$client_id = strtolower(self::get_post_value('client_id'));
+	private static function get_client_id($values) {
+		$client_id = strtolower(self::get_request_value($values, 'client_id'));
 
 		if (!preg_match('/^[a-f0-9]{32}$/', $client_id)) {
 			return '';
@@ -251,12 +291,12 @@ class MPFE_Analytics_Recorder {
 		}
 	}
 
-	private static function get_post_value($key) {
-		if (!isset($_POST[$key]) || is_array($_POST[$key])) {
+	private static function get_request_value($values, $key) {
+		if (!is_array($values) || !isset($values[$key]) || is_array($values[$key])) {
 			return '';
 		}
 
-		return wp_unslash($_POST[$key]);
+		return (string) $values[$key];
 	}
 
 	private static function is_pro_enabled() {
