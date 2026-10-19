@@ -4,9 +4,9 @@
  * Plugin Name: Music Player for Elementor
  * Plugin URI: https://smartwpress.com/music-player-for-elementor-wordpress-plugin/
  * Description: Music Player For Elementor is a stylish audio player addon for Elementor. Promote your music with an easy to use and highly customizable mp3 player and audio player.
- * Version: 2.6.1
+ * Version: 2.6.2
  * Tested up to: 7.1
- * Elementor tested up to: 4.2.3
+ * Elementor tested up to: 4.3.5
  * Author: SmartWPress
  * Author URI: https://www.smartwpress.com
  * Text Domain: music-player-for-elementor
@@ -54,7 +54,7 @@ if ( !function_exists( 'mpfe_fs' ) ) {
     do_action( 'mpfe_fs_loaded' );
 }
 if ( !defined( 'MPFE_VERSION' ) ) {
-    define( 'MPFE_VERSION', '2.6.1' );
+    define( 'MPFE_VERSION', '2.6.2' );
 }
 if ( !defined( 'MPFE_DB_VERSION' ) ) {
     define( 'MPFE_DB_VERSION', '1.0.4' );
